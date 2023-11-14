@@ -7,9 +7,6 @@ import { loggerService } from './services/logger.service.js'
 import { pdfService } from './services/pdf.service.js'
 import path from 'path'
 
-console.log('hi')
-console.log('hi'.toUpperCase())
-console.log('hi'.localeCompare('a'))
 const app = express()
 
 // App Configuration
@@ -19,8 +16,7 @@ app.use(express.json()) // for req.body
 
 // Get Bugs(READ):
 app.get('/api/bug', (req, res) => {
-    console.log('req.query:', req.query)
-    const { title, severity, pageIdx, type, dir, labels } = req.query
+    const { title, severity,  labels, pageIdx, type, des } = req.query
     const filterBy = {
         title,
         severity,
@@ -29,7 +25,7 @@ app.get('/api/bug', (req, res) => {
     }
     const sortBy = {
         type,
-        dir
+        des : (des === 'true')? -1 : 1
     }
     bugService.query(filterBy, sortBy)
         .then(bugs => {

@@ -2,20 +2,21 @@ import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
+import { BugSort } from '../cmps/BugSort.jsx'
 
 const { useState, useEffect } = React
 
 export function BugIndex() {
     const [bugs, setBugs] = useState(null)
     const [filter, setFilter] = useState(bugService.getDefaultFilter())
+    const [sort, setSort] = useState(bugService.getDefaultSort())
 
     useEffect(() => {
         loadBugs()
-    }, [filter])
+    }, [filter,sort])
 
     function loadBugs() {
-        // console.log('Load bugs')
-        bugService.query(filter).then(setBugs)
+        bugService.query(filter,sort).then(setBugs)
     }
 
     function onRemoveBug(bugId) {
@@ -78,12 +79,16 @@ export function BugIndex() {
     function onSetFilter(filter) {
         setFilter(prev => ({ ...prev, ...filter }))
     }
+    function onSetSort(sort) {
+        setSort(prev => ({ ...prev, ...sort }))
+    }
 
     return (
         <main>
             <h3>Bugs App</h3>
             <main>
                 <BugFilter defaultFilterBy={filter} onSetFilter={onSetFilter} />
+                <BugSort defaultSortBy={sort} onSetSort={onSetSort} />
                 <button onClick={onAddBug}>Add Bug ⛐</button>
                 <button onClick={onDownloadPdf}>Downloads Bugs </button>
                 <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />

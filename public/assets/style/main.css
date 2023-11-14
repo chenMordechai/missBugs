@@ -61,15 +61,22 @@ nav a:hover {
 }
 
 .bug-filter {
-    display: flex;
-    flex-direction: column;
     background-color: lightcoral;
     padding: 10px;
+    width: 200px;
+}
+
+.bug-filter form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
     gap: 5px;
 }
 
-.bug-filter input {
-    max-width: 250px;
+.bug-sort {
+    background-color: lightsalmon;
+    padding: 10px;
+    width: 200px;
 }
 
 .bug-list {

@@ -7,14 +7,14 @@ export const bugService = {
     save,
     remove,
     exportToPdf,
-    getDefaultFilter
+    getDefaultFilter,
+    getDefaultSort
 }
 
 
-function query(filterBy = {}) {
-    // console.log('filterBy:', filterBy)
+function query(filterBy = {}, sortBy={})  {
     // return storageService.query(STORAGE_KEY)
-    return axios.get(BASE_URL, { params: filterBy }).then(res => res.data)
+    return axios.get(BASE_URL, { params: {...filterBy,...sortBy} }).then(res => res.data)
     // .then(bugs => {
     //     if (filterBy.title) {
     //         const regex = new RegExp(filterBy.title, 'i')
@@ -37,7 +37,6 @@ function save(bug) {
     return axios[method](BASE_URL, bug).then(res => res.data)
 
 }
-
 
 function remove(bugId) {
     return axios.delete(BASE_URL + bugId).then(res => res.data)
@@ -64,6 +63,9 @@ function exportToPdf() {
 }
 
 function getDefaultFilter() {
-    return { title: '', severity: '' }
+    return { title: '', severity: '',labels:'' }
 }
 
+function getDefaultSort(){
+    return {type:'' , des:''}
+}

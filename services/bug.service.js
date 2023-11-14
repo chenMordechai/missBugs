@@ -14,7 +14,7 @@ export const bugService = {
 const bugs = utilService.readJsonFile('data/bug.json')
 
 function query(filterBy, sortBy) {
-    let bugsToSend = bugs
+    let bugsToSend = bugs.slice()
     if (filterBy.title) {
         const regex = new RegExp(filterBy.title, 'i')
         bugsToSend = bugsToSend.filter(bug => regex.test(bug.title))
@@ -26,8 +26,11 @@ function query(filterBy, sortBy) {
         bugsToSend = bugsToSend.filter(bug => bug.labels.includes(filterBy.labels))
     }
 
-    if (sortBy.type === 'title') bugsToSend.sort((b1, b2) => b1.title.localeCompare(b2.title) * sortBy.dir)
-    else bugsToSend.sort((b1, b2) => (b1[sortBy.type] - b2[sortBy.type]) * sortBy.dir)
+    if (sortBy.type === 'title') {
+        bugsToSend.sort((b1, b2) => b1.title.localeCompare(b2.title) * sortBy.des)
+    }else {
+        bugsToSend.sort((b1, b2) => (b1[sortBy.type] - b2[sortBy.type]) * sortBy.des)
+    }
 
     if (filterBy.pageIdx !== undefined) {
         if (filterBy.pageIdx < 0) filterBy.pageIdx = Math.floor(bugsToSend.length / PAGE_SIZE)
