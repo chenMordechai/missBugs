@@ -14,7 +14,7 @@ export function BugIndex() {
     }, [filter])
 
     function loadBugs() {
-        console.log('Load bugs')
+        // console.log('Load bugs')
         bugService.query(filter).then(setBugs)
     }
 
@@ -22,7 +22,7 @@ export function BugIndex() {
         bugService
             .remove(bugId)
             .then(() => {
-                // console.log('Deleted Succesfully!')
+                console.log('Deleted Succesfully!')
                 const bugsToUpdate = bugs.filter((bug) => bug._id !== bugId)
                 setBugs(bugsToUpdate)
                 // showSuccessMsg('Bug removed')
@@ -43,7 +43,7 @@ export function BugIndex() {
             .save(bug)
             .then((savedBug) => {
                 // console.log('Added Bug', savedBug)
-                setBugs([savedBug,...bugs])
+                setBugs([savedBug, ...bugs])
                 showSuccessMsg('Bug added')
             })
             .catch((err) => {
@@ -71,24 +71,21 @@ export function BugIndex() {
             })
     }
 
-    function onDownloadBugs(){
-        bugService.downloadPdf()
-        .then(()=>{
-            console.log('SUCCESSFUL DOWNLOADS')
-        })
+    function onDownloadPdf() {
+        bugService.exportToPdf()
     }
 
-    function onSetFilter(filter){
-        setFilter(prev => ({...prev , ...filter}))
+    function onSetFilter(filter) {
+        setFilter(prev => ({ ...prev, ...filter }))
     }
 
     return (
         <main>
             <h3>Bugs App</h3>
             <main>
-                <BugFilter defaultFilterBy={filter} onSetFilter={onSetFilter}/>
+                <BugFilter defaultFilterBy={filter} onSetFilter={onSetFilter} />
                 <button onClick={onAddBug}>Add Bug ⛐</button>
-                <button onClick={onDownloadBugs}>Downloads Bugs </button>
+                <button onClick={onDownloadPdf}>Downloads Bugs </button>
                 <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
             </main>
         </main>

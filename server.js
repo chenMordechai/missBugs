@@ -1,101 +1,115 @@
-import { bugService } from './services/bug.service.js'
-import {loggerService} from './services/logger.service.js'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 
+import { bugService } from './services/bug.service.js'
+import { loggerService } from './services/logger.service.js'
+
+import { pdfService } from './services/pdf.service.js'
+import path from 'path'
+
+console.log('hi')
+console.log('hi'.toUpperCase())
+console.log('hi'.localeCompare('a'))
 const app = express()
+
+// App Configuration
 app.use(express.static('public'))
 app.use(cookieParser())
-
-app.get('/', (req, res) => {
-    res.send('Hello there')
-})
-
+app.use(express.json()) // for req.body
 
 // Get Bugs(READ):
 app.get('/api/bug', (req, res) => {
-    bugService.query()
-    .then(bugs => {
-        res.send(bugs)
-    })
-    .catch(err => {
-        loggerService.error('Cannot get bugs', err)
-        res.status(400).send('Cannot get bugs')
-    })
-})
-
-// Save Bug (CREATE/UPDATE): must be before get bug because the :bugId
-app.get('/api/bug/save', (req, res) => {
-    const bug = {
-        _id : req.query._id,
-        title : req.query.title,
-        description : req.query.description,
-        severity : +req.query.severity,
-        createdAt: req.query.createdAt,
+    console.log('req.query:', req.query)
+    const { title, severity, pageIdx, type, dir, labels } = req.query
+    const filterBy = {
+        title,
+        severity,
+        labels,
+        pageIdx
     }
-    bugService.save(bug)
-        .then(bug => {
-            res.send(bug)
+    const sortBy = {
+        type,
+        dir
+    }
+    bugService.query(filterBy, sortBy)
+        .then(bugs => {
+            res.send(bugs)
         })
         .catch(err => {
-            loggerService.error('Cannot save bug', err)
-            res.status(400).send('Cannot save bug')
+            loggerService.error('Cannot get bugs', err)
+            res.status(400).send('Cannot get bugs')
         })
 })
-
-// Download Pdf Bug (DELETE):
-app.get('/api/bug/pdf', (req, res) => {
-    bugService.downloadPdf()
-        .then(() => {
-            console.log('downloadPdf')
-        })
-        .catch(err => {
-            loggerService.error('Cannot downloadPdf bugs', err)
-            res.status(400).send('Cannot downloadPdf bugs')
-        })
-})
-
-
 
 // Get Bug (READ):
 app.get('/api/bug/:bugId', (req, res) => {
-    const bugId = req.params.bugId
+    const { bugId } = req.params
 
-    let visitedBugs
-    if(!req.cookies.visitedBugs) visitedBugs = [bugId]
-    else {
-        visitedBugs = req.cookies.visitedBugs
-        if(!visitedBugs.includes(bugId)) {
-            visitedBugs.push(bugId)
-            if(visitedBugs.length >=3) {
-                console.log('visitedBugs.length:', visitedBugs.length)
-                return res.status(401).send('Wait for a bit')
-            }
-        }
+    const { visitedBugs = [] } = req.cookies
+    if (visitedBugs.length > 3) {
+        console.log('visitedBugs.length:', visitedBugs.length)
+        return res.status(401).send('Wait for a bit')
     }
-    res.cookie('visitedBugs', visitedBugs,{magAge:7 * 1000}) 
-    console.log('visitedBugs:', visitedBugs)
-    
-         bugService.getById(bugId)
-            .then(bug => {
+    if (!visitedBugs.includes(bugId)) {
+        visitedBugs.push(bugId)
+    }
+    res.cookie('visitedBugs', visitedBugs, { maxAge: 1000 * 7 })
+
+    bugService.getById(bugId)
+        .then(bug => {
             console.log(bug)
             res.send(bug)
-             })
-             .catch(err => {
+        })
+        .catch(err => {
             loggerService.error('Cannot get bug', err)
             res.status(400).send('Cannot get bug')
-          })
-    
+        })
+
+})
+
+// Add
+app.post('/api/bug', (req, res) => {
+    const { title, severity, description, createdAt, labels } = req.body
+    const bug = {
+        title,
+        severity: +severity,
+        description,
+        createdAt,
+        labels,
+    }
+    bugService.save(bug)
+        .then((savedBug) => res.send(savedBug))
+        .catch((err) => console.log(err))
+})
+
+// Edit
+app.put('/api/bug', (req, res) => {
+    console.log('hiiii:')
+    console.log('req.body:', req.body)
+    const { _id, title, severity, description, createdAt, labels } = req.body
+    const bug = {
+        _id,
+        title,
+        severity: +severity,
+        description,
+        createdAt,
+        labels,
+    }
+    bugService.save(bug)
+        .then((savedBug) => res.send(savedBug))
+        .catch((err) => console.log(err))
 })
 
 
 // Remove Bug (DELETE):
-app.get('/api/bug/:bugId/remove', (req, res) => {
-    const bugId = req.params.bugId
+app.delete('/api/bug/:bugId', (req, res) => {
+    const { bugId } = req.params
+
     bugService.remove(bugId)
         .then(() => {
-            console.log('removed '+ bugId)
-            res.redirect('/api/bug')
+            console.log('removed ' + bugId)
+            // res.redirect('/api/bug')
+            res.send('Car removed successfully')
         })
         .catch(err => {
             loggerService.error('Cannot remove bug', err)
@@ -103,12 +117,25 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
         })
 })
 
+// Download Pdf Bug :
+app.get('/api/bug/export', (req, res) => {
+
+    bugService.query().then(pdfService.buildPDF).then((pdfFileName) => {
+        const pdfFilePath = path.join(process.cwd(), pdfFileName)
+        // Send the PDF file to the client
+        return res.sendFile(pdfFilePath) //SaveTheBugs.pdf
+    }).catch(err => {
+        loggerService.error('Cannot get Pdf', err)
+        res.status(400).send('Cannot get Pdf')
+    })
+})
 
 
 
-// app.listen(3031, () => console.log('Server ready at port 3031'))
 
-const port = 3031
+// app.listen(3030, () => console.log('Server ready at port 3031'))
+
+const port = 3030
 app.listen(port, () =>
     loggerService.info(`Server listening on port http://127.0.0.1:${port}/`)
 )

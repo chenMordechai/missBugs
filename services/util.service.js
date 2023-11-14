@@ -9,27 +9,7 @@ export const utilService = {
     download,
     httpGet,
     makeId,
-    makePdf
 }
-
-function makePdf(items ,fileName = 'bugs.pdf'){
-    const doc = new PDFDocument();
-    doc.pipe(fs.createWriteStream(fileName));
-    doc
-        .fontSize(25)
-        .text('Fix the bugs!', 100, 100);
-
-    items.forEach((item,idx) => {
-        console.log('item:', item)
-        doc
-            .fontSize(22)
-            .text(item.title, 130 ,200* (idx+1));
-    });
-
-    doc.end();
-  return  Promise.resolve('end')
-}
-
 
 function readJsonFile(path) {
     const str = fs.readFileSync(path, 'utf8')

@@ -1,83 +1,65 @@
 [
-    {
-        "_id": "owYZ7",
-        "title": "tt",
-        "description": "dd",
-        "severity": 4
-    },
-    {
-        "_id": "GlSxe",
-        "title": "ll",
-        "description": "ee",
-        "severity": 1
-    },
-    {
-        "_id": "QsukO",
-        "title": "aa",
-        "description": "bbb",
-        "severity": 111
-    },
-    {
-        "_id": "zFcoR",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": 12000
-    },
-    {
-        "_id": "2uNjK",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": null
-    },
-    {
-        "_id": "KSjp5",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": null
-    },
-    {
-        "_id": "f5ofZ",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": null
-    },
-    {
-        "_id": "23wUr",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": null
-    },
-    {
-        "_id": "XIxJx",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": null
-    },
-    {
-        "_id": "1uele",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": null
-    },
-    {
-        "_id": "abc123",
-        "title": "Cannot save a bug",
-        "description": "problem when clicking Save",
-        "severity": 3,
-        "createdAt": 1542107359454
-    },
-    {
-        "_id": "def123",
-        "title": "Cannot add a bug",
-        "description": "problem when clicking Add",
-        "severity": 4,
-        "createdAt": 1542104569454
-    },
-    {
-        "_id": "hij123",
-        "title": "Cannot remove a bug",
-        "description": "problem when clicking Remove",
-        "severity": 5,
-        "createdAt": 1542107355674
-    }
+  {
+    "_id": "abc123",
+    "title": "aCannot save a bug",
+    "severity": 3,
+    "description": "problem when clicking Save",
+    "createdAt": 1542107359451,
+    "labels": "['critical', 'need-CR', 'dev-branch']",
+    "number": 1
+  },
+  {
+    "_id": "abc123",
+    "title": "cCannot save a bug",
+    "severity": 1,
+    "description": "problem when clicking Save",
+    "createdAt": 1542107359452,
+    "labels": "['critical', 'need-CR', 'dev-branch']",
+    "number": 2
+  },
+  {
+    "_id": "abc456",
+    "title": "bCannot remove a bug",
+    "description": "problem when clicking remove",
+    "severity": 4,
+    "createdAt": 1542107359458,
+    "labels": "['critical', 'need-CR']",
+    "number": 3
+  },
+  {
+    "_id": "abc789",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 5,
+    "createdAt": 1542107359455,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 4
+  },
+  {
+    "_id": "abc789",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 2,
+    "createdAt": 1542107359456,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 5
+  },
+  {
+    "_id": "abc789",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 6
+  },
+  {
+    "_id": "abc789",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  }
 ]

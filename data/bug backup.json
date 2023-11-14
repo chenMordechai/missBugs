@@ -1,23 +1,26 @@
 [
     {
         "_id": "abc123",
-        "title": "Cannot save a Car",
+        "title": "Cannot save a bug",
         "description": "problem when clicking Save",
         "severity": 3,
-        "createdAt": 1542107359454
+        "createdAt": 1542107359454,
+        "labels": "['critical', 'need-CR', 'dev-branch']"
     },
     {
-        "_id": "def123",
-        "title": "Cannot add a Car",
-        "description": "problem when clicking Add",
+        "_id": "abc456",
+        "title": "Cannot remove a bug",
+        "description": "problem when clicking remove",
         "severity": 4,
-        "createdAt": 1542104569454
+        "createdAt": 1542107359454,
+        "labels": "['critical', 'need-CR']"
     },
     {
-        "_id": "hij123",
-        "title": "Cannot remove a Car",
-        "description": "problem when clicking Remove",
+        "_id": "abc789",
+        "title": "Cannot update a bug",
+        "description": "problem when clicking update",
         "severity": 5,
-        "createdAt": 1542107355674
+        "createdAt": 1542107359454,
+        "labels": "[ 'need-CR', 'dev-branch']"
     }
 ]
