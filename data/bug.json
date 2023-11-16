@@ -2,11 +2,10 @@
   {
     "_id": "abc123",
     "title": "aCannot save a bug",
-    "severity": 3,
+    "severity": 0,
     "description": "problem when clicking Save",
     "createdAt": 1542107359451,
-    "labels": "['critical', 'need-CR', 'dev-branch']",
-    "number": 1
+    "labels": "['critical', 'need-CR', 'dev-branch']"
   },
   {
     "_id": "abc122",
@@ -55,6 +54,69 @@
   },
   {
     "_id": "abc289",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "abc689",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "abc284",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "adc289",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "abe289",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "cbc289",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "abd289",
+    "title": "Cannot update a bug",
+    "description": "problem when clicking update",
+    "severity": 6,
+    "createdAt": 1542107359452,
+    "labels": "[ 'need-CR', 'dev-branch']",
+    "number": 7
+  },
+  {
+    "_id": "abc189",
     "title": "Cannot update a bug",
     "description": "problem when clicking update",
     "severity": 6,

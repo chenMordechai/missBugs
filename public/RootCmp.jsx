@@ -1,5 +1,9 @@
 const Router = ReactRouterDOM.HashRouter
+// const Router = ReactRouterDOM.BrowserRouter
 const { Route, Routes } = ReactRouterDOM
+
+// import { HashRouter as Router } from 'react-router-dom'
+// import { BrowserRouter as Router } from 'react-router-dom'
 
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'

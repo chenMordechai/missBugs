@@ -8,13 +8,13 @@ export const bugService = {
     remove,
     exportToPdf,
     getDefaultFilter,
-    getDefaultSort
+    getDefaultSort,
 }
 
 
-function query(filterBy = {}, sortBy={})  {
+function query(filterBy = {}, sortBy = {}) {
     // return storageService.query(STORAGE_KEY)
-    return axios.get(BASE_URL, { params: {...filterBy,...sortBy} }).then(res => res.data)
+    return axios.get(BASE_URL, { params: { ...filterBy, ...sortBy } }).then(res => res.data)
     // .then(bugs => {
     //     if (filterBy.title) {
     //         const regex = new RegExp(filterBy.title, 'i')
@@ -63,9 +63,9 @@ function exportToPdf() {
 }
 
 function getDefaultFilter() {
-    return { title: '', severity: '',labels:'' }
+    return { title: '', severity: '', labels: '', pageIdx: 0 }
 }
 
-function getDefaultSort(){
-    return {type:'' , des:''}
+function getDefaultSort() {
+    return { type: '', des: '' }
 }

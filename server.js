@@ -16,7 +16,7 @@ app.use(express.json()) // for req.body
 
 // Get Bugs(READ):
 app.get('/api/bug', (req, res) => {
-    const { title, severity,  labels, pageIdx, type, des } = req.query
+    const { title, severity, labels, pageIdx, type, des } = req.query
     const filterBy = {
         title,
         severity,
@@ -25,7 +25,7 @@ app.get('/api/bug', (req, res) => {
     }
     const sortBy = {
         type,
-        des : (des === 'true')? -1 : 1
+        des: (des === 'true') ? -1 : 1
     }
     bugService.query(filterBy, sortBy)
         .then(bugs => {
@@ -126,6 +126,11 @@ app.get('/api/bug/export', (req, res) => {
     })
 })
 
+
+// for using ReactRouterDOM.BrowserRouter
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('public/index.html'))
+})
 
 
 

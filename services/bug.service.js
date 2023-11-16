@@ -17,7 +17,7 @@ function query(filterBy, sortBy) {
     let bugsToSend = bugs.slice()
     if (filterBy.title) {
         const regex = new RegExp(filterBy.title, 'i')
-        bugsToSend = bugsToSend.filter(bug => regex.test(bug.title))
+        bugsToSend = bugsToSend.filter(bug => regex.test(bug.title) || regex.test(bug.description))
     }
     if (filterBy.severity) {
         bugsToSend = bugsToSend.filter(bug => bug.severity >= filterBy.severity)
@@ -28,18 +28,19 @@ function query(filterBy, sortBy) {
 
     if (sortBy.type === 'title') {
         bugsToSend.sort((b1, b2) => b1.title.localeCompare(b2.title) * sortBy.des)
-    }else {
+    } else {
         bugsToSend.sort((b1, b2) => (b1[sortBy.type] - b2[sortBy.type]) * sortBy.des)
     }
-
+    // 14 / 3 =  4.6 => 5
+    const pageCount = Math.ceil(bugsToSend.length / PAGE_SIZE)
     if (filterBy.pageIdx !== undefined) {
-        if (filterBy.pageIdx < 0) filterBy.pageIdx = Math.floor(bugsToSend.length / PAGE_SIZE)
         let start = filterBy.pageIdx * PAGE_SIZE // 0 , 3 , 6 , 9
-        if (start >= bugsToSend.length) start = 0
         bugsToSend = bugsToSend.slice(start, start + PAGE_SIZE)
     }
 
-    return Promise.resolve(bugsToSend)
+    // const data = { bugs: bugsToSend, bugsLength: bugsLength, pageSize: PAGE_SIZE }
+    const data = { bugs: bugsToSend, pageCount }
+    return Promise.resolve(data)
 }
 
 
@@ -64,10 +65,11 @@ function getById(bugId) {
 
 function remove(bugId) {
     console.log('bugId:', bugId)
-    const bugIdx = bugs.findIndex(bug => bug._id === bugId)
-    console.log('bugIdx:', bugIdx)
-    if (bugIdx !== -1) bugs.splice(bugIdx, 1)
+    // const bugIdx = bugs.findIndex(bug => bug._id === bugId)
+    // console.log('bugIdx:', bugIdx)
+    // if (bugIdx !== -1) bugs.splice(bugIdx, 1)
 
+    bugs = bugs.filter(bug => bug._id !== bugId)
     return _saveBugsToFile() // Promise.resolve()
 }
 
