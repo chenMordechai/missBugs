@@ -31,7 +31,9 @@ export function AppHeader() {
         <NavLink to="/">Home</NavLink> |
         <NavLink to="/bug">Bugs</NavLink> |
         <NavLink to="/about">About</NavLink>|
+        {console.log(user)}
         {user && <NavLink to={`/user/${user._id}`}>User Details</NavLink>}
+        {(user && user.isAdmin) && <NavLink to={'/user'}>Users List</NavLink>}
       </nav>
       <h1>Bugs are Forever</h1>
     </header>

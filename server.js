@@ -181,6 +181,42 @@ app.get('/api/auth/:userId', (req, res) => {
         })
 })
 
+// Get Users(READ):
+app.get('/api/auth', (req, res) => {
+
+    const loggedinUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Cannot get users')
+
+    userService.query(loggedinUser)
+        .then(users => {
+            res.send(users)
+        })
+        .catch(err => {
+            loggerService.error('Cannot get users', err)
+            res.status(400).send('Cannot get users')
+        })
+})
+
+// Remove User (DELETE):
+app.delete('/api/auth/:userId', (req, res) => {
+    
+
+    const loggedinUser = userService.validateToken(req.cookies.loginToken)
+    if (!loggedinUser) return res.status(401).send('Cannot delete user')
+
+    const { userId } = req.params
+    userService.remove(userId, loggedinUser)
+        .then(() => {
+            // res.redirect('/api/bug')
+            res.send('User removed successfully')
+        })
+        .catch(err => {
+            loggerService.error('Cannot remove user', err)
+            res.status(400).send('Cannot remove user')
+        })
+})
+
+
 
 ////////////////////////////////////////////////////
 

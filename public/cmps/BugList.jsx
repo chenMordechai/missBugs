@@ -10,7 +10,7 @@ export function BugList({ bugs, onRemoveBug, onEditBug }) {
     
 function isCreator(bug){
     if(!user) return false
-   return (bug.creator._id === user._id)
+   return (user.isAdmin || bug.creator._id === user._id)
 
 }
 

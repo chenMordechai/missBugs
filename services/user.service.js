@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { utilService } from "./util.service.js"
+import { bugService } from "./bug.service.js"
 import { loggerService } from './logger.service.js'
 
 import Cryptr from 'cryptr'
@@ -11,7 +12,9 @@ export const userService = {
     checkLogin,
     getLoginToken,
     validateToken,
-    getById
+    getById,
+    query,
+    remove
 }
 
 const users = utilService.readJsonFile('data/user.json')
@@ -22,6 +25,7 @@ function signup({ fullname, username, password }) {
         fullname,
         username,
         password,
+        isAdmin:false
     }
 
     users.unshift(user)
@@ -35,6 +39,7 @@ function checkLogin({ username, password }) {
         user = {
             _id: user._id,
             fullname: user.fullname,
+            isAdmin: JSON.parse(user.isAdmin)
         }
     }
     return Promise.resolve(user)
@@ -70,8 +75,33 @@ function getById(userId) {
     if (user) {
         user = {
             _id: user._id,
-            fullname: user.fullname,
+            fullname: user.fullname, 
+            isAdmin: JSON.parse(user.isAdmin)
         }
     }
     return Promise.resolve(user)
+}
+
+function query(loggedinUser){
+    if(!loggedinUser.isAdmin) return Promise.reject('Not admin')
+    return Promise.resolve(users)
+}
+
+function remove(userId,loggedinUser){
+    if (!loggedinUser.isAdmin) return Promise.reject('Not admin')
+
+    const userIdx = users.findIndex(user => user._id === userId)
+    if (userIdx === -1) return Promise.reject('No Such user')
+
+    const user = users[userIdx]
+
+   return bugService.query({userId:user._id})
+    .then(data=>{
+        if(!data.bugs.length){
+            users.splice(userIdx, 1)
+            return _saveUsersToFile() // Promise.resolve()
+        }else{
+            return Promise.reject('Cannot delete user with bugs')
+        }
+    })
 }

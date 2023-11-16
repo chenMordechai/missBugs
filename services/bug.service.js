@@ -13,7 +13,7 @@ export const bugService = {
 
 const bugs = utilService.readJsonFile('data/bug.json')
 
-function query(filterBy, sortBy) {
+function query(filterBy ={}, sortBy ={}) {
     let bugsToSend = bugs.slice()
     if (filterBy.title) {
         const regex = new RegExp(filterBy.title, 'i')
@@ -49,7 +49,7 @@ function query(filterBy, sortBy) {
 function save(bug, loggedinUser) {
     if (bug._id) {
         const bugIdx = bugs.findIndex(currBug => currBug._id === bug._id)
-        if (bugs[bugIdx].creator._id !== loggedinUser._id) return Promise.reject('Not your Car')
+        if (!loggedinUser.isAdmin &&  bugs[bugIdx].creator._id !== loggedinUser._id) return Promise.reject('Not your Bug')
         // bugs[bugIdx] = bug
         bugs[bugIdx].title = bug.title
         bugs[bugIdx].severity = bug.severity
@@ -74,7 +74,7 @@ function remove(bugId, loggedinUser) {
     if (bugIdx === -1) return Promise.reject('No Such Bug')
 
     const bug = bugs[bugIdx]
-    if (bug.creator._id !== loggedinUser._id) return Promise.reject('Not your bug')
+    if (!loggedinUser.isAdmin &&  bug.creator._id !== loggedinUser._id) return Promise.reject('Not your bug')
 
     bugs.splice(bugIdx, 1)
 

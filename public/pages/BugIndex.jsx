@@ -36,7 +36,7 @@ export function BugIndex() {
             .then(() => {
                 const bugsToUpdate = bugs.filter((bug) => bug._id !== bugId)
                 setBugs(bugsToUpdate)
-                // showSuccessMsg('Bug removed')
+                showSuccessMsg('Bug removed')
             })
             .catch((err) => {
                 showErrorMsg('Cannot remove bug')
