@@ -50,8 +50,7 @@ export function BugIndex() {
             severity: +prompt('Bug severity?'),
             description: prompt('Bug description?')
         }
-        bugService
-            .save(bug)
+        bugService.save(bug)
             .then((savedBug) => {
                 // console.log('Added Bug', savedBug)
                 setBugs([savedBug, ...bugs])

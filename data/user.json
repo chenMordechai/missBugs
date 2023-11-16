@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "M3Tm1",
+    "fullname": "aa a",
+    "username": "aa",
+    "password": "aa"
+  },
+  {
+    "_id": "DbAVf",
+    "fullname": "chen m",
+    "username": "chen",
+    "password": "1234"
+  },
+  {
+    "_id": "DkmMN",
+    "fullname": "chen m",
+    "username": "chen",
+    "password": "1234"
+  },
+  {
+    "_id": "u102",
+    "username": "puki",
+    "fullname": "Puki Pa",
+    "password": "123"
+  },
+  {
+    "_id": "u101",
+    "username": "muki",
+    "fullname": "Muki Ma",
+    "password": "456"
+  }
+]

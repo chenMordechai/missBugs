@@ -5,7 +5,11 @@
         "description": "problem when clicking Save",
         "severity": 3,
         "createdAt": 1542107359454,
-        "labels": "['critical', 'need-CR', 'dev-branch']"
+        "labels": "['critical', 'need-CR', 'dev-branch']",
+        "creator": {
+            "_id": "u102",
+            "fullname": "Puki Pa"
+        }
     },
     {
         "_id": "abc456",
@@ -13,7 +17,11 @@
         "description": "problem when clicking remove",
         "severity": 4,
         "createdAt": 1542107359454,
-        "labels": "['critical', 'need-CR']"
+        "labels": "['critical', 'need-CR']",
+        "creator": {
+            "_id": "u102",
+            "fullname": "Puki Pa"
+        }
     },
     {
         "_id": "abc789",
@@ -21,6 +29,22 @@
         "description": "problem when clicking update",
         "severity": 5,
         "createdAt": 1542107359454,
-        "labels": "[ 'need-CR', 'dev-branch']"
+        "labels": "[ 'need-CR', 'dev-branch']",
+        "creator": {
+            "_id": "u101",
+            "fullname": "Muki Ma"
+        }
+    },
+    {
+        "_id": "abc749",
+        "title": "Cannot update",
+        "description": "problem when clicking update",
+        "severity": 5,
+        "createdAt": 1542107359454,
+        "labels": "[ 'need-CR', 'critical']",
+        "creator": {
+            "_id": "u101",
+            "fullname": "Muki Ma"
+        }
     }
 ]

@@ -27,6 +27,7 @@ function query(filterBy = {}, sortBy = {}) {
     //     return bugs
     // })
 }
+
 function getById(bugId) {
     return axios.get(BASE_URL + bugId).then(res => res.data)
     // return storageService.get(STORAGE_KEY, bugId)

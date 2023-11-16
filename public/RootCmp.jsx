@@ -1,5 +1,5 @@
-const Router = ReactRouterDOM.HashRouter
-// const Router = ReactRouterDOM.BrowserRouter
+// const Router = ReactRouterDOM.HashRouter
+const Router = ReactRouterDOM.BrowserRouter
 const { Route, Routes } = ReactRouterDOM
 
 // import { HashRouter as Router } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { Home } from './pages/Home.jsx'
 import { BugIndex } from './pages/BugIndex.jsx'
 import { BugDetails } from './pages/BugDetails.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
+import { UserDetails } from './pages/UserDetails.jsx'
 
 export function App() {
     return (
@@ -23,6 +24,8 @@ export function App() {
                         <Route path="/bug" element={<BugIndex />} />
                         <Route path="/bug/:bugId" element={<BugDetails />} />
                         <Route path="/about" element={<AboutUs />} />
+                        <Route path="/user/:userId" element={<UserDetails />} />
+
                     </Routes>
                 </main>
                 <AppFooter />

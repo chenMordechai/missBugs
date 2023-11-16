@@ -43,15 +43,20 @@ function query(filterBy, sortBy) {
     return Promise.resolve(data)
 }
 
-
-
-function save(bug) {
+function save(bug,loggedinUser) {
+    console.log('loggedinUser:', loggedinUser)
     // console.log('bug:', bug)
     if (bug._id) {
         const bugIdx = bugs.findIndex(currBug => currBug._id === bug._id)
-        bugs[bugIdx] = bug
+        if(bugs[bugIdx].creator._id !== loggedinUser._id) return Promise.reject('Not your Car')
+        // bugs[bugIdx] = bug
+        bugs[bugIdx].title = bug.title
+        bugs[bugIdx].severity = bug.severity
+        bugs[bugIdx].description = bug.description
+
     } else {
         bug._id = utilService.makeId()
+        bug.creator = loggedinUser
         bugs.unshift(bug)
     }
     return _saveBugsToFile().then(() => bug)
@@ -63,13 +68,16 @@ function getById(bugId) {
     return Promise.resolve(bug)
 }
 
-function remove(bugId) {
-    console.log('bugId:', bugId)
-    // const bugIdx = bugs.findIndex(bug => bug._id === bugId)
-    // console.log('bugIdx:', bugIdx)
-    // if (bugIdx !== -1) bugs.splice(bugIdx, 1)
+function remove(bugId,loggedinUser) {
+    const bugIdx = bugs.findIndex(bug => bug._id === bugId)
+    if (bugIdx === -1)  return Promise.reject('No Such Bug')
 
-    bugs = bugs.filter(bug => bug._id !== bugId)
+    const bug = bugs[bugIdx]
+    if(bug.creator._id !== loggedinUser._id) return Promise.reject('Not your bug')
+    
+    bugs.splice(bugIdx, 1)
+
+    // bugs = bugs.filter(bug => bug._id !== bugId)
     return _saveBugsToFile() // Promise.resolve()
 }
 
