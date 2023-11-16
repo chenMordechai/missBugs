@@ -1,5 +1,6 @@
 import { bugService } from '../services/bug.service.js'
 import { utilService } from '../services/util.service.js'
+import { userService } from '../services/user.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
@@ -43,6 +44,9 @@ export function BugIndex() {
     }
 
     function onAddBug() {
+      const user = userService.getLoggedinUser()
+      if(!user) return showErrorMsg('Cannot add bug')
+    
         const bug = {
             title: prompt('Bug title?'),
             severity: +prompt('Bug severity?'),
