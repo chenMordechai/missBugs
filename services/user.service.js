@@ -17,7 +17,6 @@ export const userService = {
 const users = utilService.readJsonFile('data/user.json')
 
 function signup({ fullname, username, password }) {
-    console.log('signup')
     const user = {
         _id: utilService.makeId(),
         fullname,
@@ -45,7 +44,7 @@ function getLoginToken(user) {
     return cryptr.encrypt(JSON.stringify(user))
 }
 
-function validateToken(loginToken){
+function validateToken(loginToken) {
     if (!loginToken) return null
     const json = cryptr.decrypt(loginToken)
     const loggedinUser = JSON.parse(json)
@@ -60,16 +59,15 @@ function _saveUsersToFile() {
                 loggerService.error('Cannot write to users file', err)
                 return reject(err);
             }
-            console.log('The file was saved!');
             resolve()
         });
     })
 }
 
-function getById(userId){
-    let user =  users.find(u=>u._id === userId)
+function getById(userId) {
+    let user = users.find(u => u._id === userId)
     // mini user
-    if(user){
+    if (user) {
         user = {
             _id: user._id,
             fullname: user.fullname,

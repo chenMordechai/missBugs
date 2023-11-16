@@ -1,4 +1,4 @@
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
 import { LoginForm } from './LoginForm.jsx'
 
@@ -10,17 +10,20 @@ export function LoginSignup({ onSetUser }) {
 
     function onLogin(credentials) {
         isSignup ? signup(credentials) : login(credentials)
+            .then(() => {
+                eventBusService.emit('login-logout', { txt: 'login' })
+            })
     }
 
     function login(credentials) {
-        userService.login(credentials)
+        return userService.login(credentials)
             .then(onSetUser)
             .then(() => { showSuccessMsg('Logged in successfully') })
             .catch((err) => { showErrorMsg('Oops try again') })
     }
 
     function signup(credentials) {
-        userService.signup(credentials)
+        return userService.signup(credentials)
             .then(onSetUser)
             .then(() => { showSuccessMsg('Signed in successfully') })
             .catch((err) => { showErrorMsg('Oops try again') })

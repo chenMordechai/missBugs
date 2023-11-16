@@ -1,12 +1,12 @@
 import { LoginSignup } from "../cmps/LoginSignup.jsx";
-import { showErrorMsg } from '../services/event-bus.service.js'
+import { eventBusService, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from "../services/user.service.js";
 
 const { useState } = React
 const { Link, NavLink } = ReactRouterDOM
 
 export function Home() {
-  
+
   const [user, setUser] = useState(userService.getLoggedinUser())
 
   function onSetUser(user) {
@@ -18,10 +18,13 @@ export function Home() {
     userService.logout()
       .then(() => {
         onSetUser(null)
+        eventBusService.emit('login-logout', { txt: 'logout' })
       })
       .catch((err) => {
         showErrorMsg('OOPs try again')
       })
+
+
   }
 
 

@@ -16,12 +16,13 @@ app.use(express.json()) // for req.body
 
 // Get Bugs(READ):
 app.get('/api/bug', (req, res) => {
-    const { title, severity, labels, pageIdx, type, des } = req.query
+    const { title, severity, labels, pageIdx, type, des, userId } = req.query
     const filterBy = {
         title,
         severity,
         labels,
-        pageIdx
+        pageIdx,
+        userId
     }
     const sortBy = {
         type,
@@ -43,7 +44,6 @@ app.get('/api/bug/:bugId', (req, res) => {
 
     const { visitedBugs = [] } = req.cookies
     if (visitedBugs.length > 3) {
-        console.log('visitedBugs.length:', visitedBugs.length)
         return res.status(401).send('Wait for a bit')
     }
     if (!visitedBugs.includes(bugId)) {
@@ -53,7 +53,6 @@ app.get('/api/bug/:bugId', (req, res) => {
 
     bugService.getById(bugId)
         .then(bug => {
-            console.log(bug)
             res.send(bug)
         })
         .catch(err => {
@@ -77,7 +76,7 @@ app.post('/api/bug', (req, res) => {
         createdAt,
         labels,
     }
-    bugService.save(bug , loggedinUser)
+    bugService.save(bug, loggedinUser)
         .then((savedBug) => res.send(savedBug))
         .catch((err) => {
             loggerService.error('Cannot save bug', err)
@@ -90,7 +89,7 @@ app.put('/api/bug', (req, res) => {
 
     const loggedinUser = userService.validateToken(req.cookies.loginToken)
     if (!loggedinUser) return res.status(401).send('Cannot edit bug')
-   
+
     const { _id, title, severity, description, createdAt, labels } = req.body
     const bug = {
         _id,
@@ -100,7 +99,7 @@ app.put('/api/bug', (req, res) => {
         createdAt,
         labels,
     }
-    bugService.save(bug ,loggedinUser)
+    bugService.save(bug, loggedinUser)
         .then((savedBug) => res.send(savedBug))
         .catch((err) => {
             loggerService.error('Cannot edit bug', err)
@@ -113,13 +112,12 @@ app.delete('/api/bug/:bugId', (req, res) => {
 
     const loggedinUser = userService.validateToken(req.cookies.loginToken)
     if (!loggedinUser) return res.status(401).send('Cannot delete bug')
-   
+
 
     const { bugId } = req.params
 
-    bugService.remove(bugId,loggedinUser)
+    bugService.remove(bugId, loggedinUser)
         .then(() => {
-            console.log('removed ' + bugId)
             // res.redirect('/api/bug')
             res.send('Bug removed successfully')
         })
@@ -133,7 +131,6 @@ app.delete('/api/bug/:bugId', (req, res) => {
 
 
 app.post('/api/auth/signup', (req, res) => {
-    console.log('req.body:', req.body)
     const credentials = req.body
     userService.signup(credentials)
         .then((savedUser) => res.send(savedUser))
@@ -171,17 +168,17 @@ app.get('/api/auth/:userId', (req, res) => {
     const { userId } = req.params
 
     userService.getById(userId)
-    .then(user=>{
-        if (user) {
-            res.send(user)
-        } else {
-            res.status(401).send('Invalid User')
-        }
-    })
-    .catch((err) => {
-        loggerService.error('Cannot get user', err)
-        res.status(400).send('Cannot get user')
-    })
+        .then(user => {
+            if (user) {
+                res.send(user)
+            } else {
+                res.status(401).send('Invalid User')
+            }
+        })
+        .catch((err) => {
+            loggerService.error('Cannot get user', err)
+            res.status(400).send('Cannot get user')
+        })
 })
 
 

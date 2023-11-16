@@ -33,13 +33,11 @@ export function BugIndex() {
         bugService
             .remove(bugId)
             .then(() => {
-                console.log('Deleted Succesfully!')
                 const bugsToUpdate = bugs.filter((bug) => bug._id !== bugId)
                 setBugs(bugsToUpdate)
                 // showSuccessMsg('Bug removed')
             })
             .catch((err) => {
-                console.log('Error from onRemoveBug ->', err)
                 showErrorMsg('Cannot remove bug')
             })
     }
@@ -52,12 +50,10 @@ export function BugIndex() {
         }
         bugService.save(bug)
             .then((savedBug) => {
-                // console.log('Added Bug', savedBug)
                 setBugs([savedBug, ...bugs])
                 showSuccessMsg('Bug added')
             })
             .catch((err) => {
-                console.log('Error from onAddBug ->', err)
                 showErrorMsg('Cannot add bug')
             })
     }
@@ -68,7 +64,6 @@ export function BugIndex() {
         bugService
             .save(bugToSave)
             .then((savedBug) => {
-                // console.log('Updated Bug:', savedBug)
                 const bugsToUpdate = bugs.map((currBug) =>
                     currBug._id === savedBug._id ? savedBug : currBug
                 )
@@ -76,7 +71,6 @@ export function BugIndex() {
                 showSuccessMsg('Bug updated')
             })
             .catch((err) => {
-                console.log('Error from onEditBug ->', err)
                 showErrorMsg('Cannot update bug')
             })
     }
@@ -86,7 +80,6 @@ export function BugIndex() {
     }
 
     function onSetFilter(filter) {
-        console.log('filter:', filter)
         setFilter(prev => ({ ...prev, ...filter }))
     }
 

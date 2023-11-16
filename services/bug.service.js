@@ -25,6 +25,9 @@ function query(filterBy, sortBy) {
     if (filterBy.labels) {
         bugsToSend = bugsToSend.filter(bug => bug.labels.includes(filterBy.labels))
     }
+    if (filterBy.userId) {
+        bugsToSend = bugsToSend.filter(b => b.creator._id === filterBy.userId)
+    }
 
     if (sortBy.type === 'title') {
         bugsToSend.sort((b1, b2) => b1.title.localeCompare(b2.title) * sortBy.des)
@@ -43,12 +46,10 @@ function query(filterBy, sortBy) {
     return Promise.resolve(data)
 }
 
-function save(bug,loggedinUser) {
-    console.log('loggedinUser:', loggedinUser)
-    // console.log('bug:', bug)
+function save(bug, loggedinUser) {
     if (bug._id) {
         const bugIdx = bugs.findIndex(currBug => currBug._id === bug._id)
-        if(bugs[bugIdx].creator._id !== loggedinUser._id) return Promise.reject('Not your Car')
+        if (bugs[bugIdx].creator._id !== loggedinUser._id) return Promise.reject('Not your Car')
         // bugs[bugIdx] = bug
         bugs[bugIdx].title = bug.title
         bugs[bugIdx].severity = bug.severity
@@ -68,13 +69,13 @@ function getById(bugId) {
     return Promise.resolve(bug)
 }
 
-function remove(bugId,loggedinUser) {
+function remove(bugId, loggedinUser) {
     const bugIdx = bugs.findIndex(bug => bug._id === bugId)
-    if (bugIdx === -1)  return Promise.reject('No Such Bug')
+    if (bugIdx === -1) return Promise.reject('No Such Bug')
 
     const bug = bugs[bugIdx]
-    if(bug.creator._id !== loggedinUser._id) return Promise.reject('Not your bug')
-    
+    if (bug.creator._id !== loggedinUser._id) return Promise.reject('Not your bug')
+
     bugs.splice(bugIdx, 1)
 
     // bugs = bugs.filter(bug => bug._id !== bugId)
@@ -89,7 +90,6 @@ function _saveBugsToFile() {
                 loggerService.error('Cannot write to bugs file', err)
                 return reject(err);
             }
-            console.log('The file was saved!');
             resolve()
         });
     })
