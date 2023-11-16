@@ -101,3 +101,12 @@ nav a:hover {
 .bug-preview span {
     color: gold;
 }
+
+.user-list li {
+    background-color: blanchedalmond;
+    width: max-content;
+    padding: 10px;
+    margin-top: 10px;
+    border: 3px solid black;
+    list-style: none;
+}

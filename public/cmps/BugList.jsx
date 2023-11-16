@@ -7,12 +7,12 @@ import { BugPreview } from './BugPreview.jsx'
 export function BugList({ bugs, onRemoveBug, onEditBug }) {
 
     const user = userService.getLoggedinUser()
-    
-function isCreator(bug){
-    if(!user) return false
-   return (user.isAdmin || bug.creator._id === user._id)
 
-}
+    function isCreator(bug) {
+        if (!user) return false
+        return (user.isAdmin || bug.creator._id === user._id)
+
+    }
 
     if (!bugs) return <div>Loading...</div>
     return (
@@ -21,11 +21,11 @@ function isCreator(bug){
                 <li className="bug-preview" key={bug._id}>
                     <BugPreview bug={bug} />
 
-                  { isCreator(bug) && 
-                     <div>
-                        <button onClick={() => onRemoveBug(bug._id)}>x</button>
-                        <button onClick={() => onEditBug(bug)}>Edit</button>
-                    </div>}
+                    {isCreator(bug) &&
+                        <div>
+                            <button onClick={() => onRemoveBug(bug._id)}>x</button>
+                            <button onClick={() => onEditBug(bug)}>Edit</button>
+                        </div>}
                     <Link to={`/bug/${bug._id}`}>Details</Link>
                 </li>
             ))
